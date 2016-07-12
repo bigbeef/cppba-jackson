@@ -7,63 +7,43 @@ import java.io.IOException;
 import java.util.List;
 
 public class StringToObject {
-    public static ObjectMapper objectMapper = new ObjectMapper();
-
     public static void main(String[] args) throws IOException {
-        String jsonStr = "[{\"id\":\"1\",\"values\":[\"1\",\"2\"]},{\"id\":\"2\",\"values\":[\"11\",\"22\"]}]";
-        JsonArrayToList[] jsonArrayToList = objectMapper.readValue(jsonStr, JsonArrayToList[].class);
-        for (JsonArrayToList jatl : jsonArrayToList) {
-            System.out.println(jatl.toString());
-        }
+        String jsonString = "{\"id\":\"1\",\"name\":\"bigbeef\",\"list\":[{\"str\":\"str1\",\"integer\":\"1\"}," +
+                "{\"str\":\"str2\",\"integer\":\"2\"}]}";
+        ObjectMapper objectMapper = new ObjectMapper();
+        MyObject myObject = objectMapper.readValue(jsonString, MyObject.class);
+        System.out.println(myObject.toString());
     }
 }
 
-class JsonArrayToList {
+class MyObject{
     @JsonProperty("id")
     private String id;
-
-    @JsonProperty("values")
-    private List<Integer> values;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("list")
+    private List<MyListProject> list;
 
     @Override
     public String toString() {
-        return "JsonArrayToList{" +
+        return "MyObject{" +
                 "id='" + id + '\'' +
-                ", values=" + values +
+                ", name='" + name + '\'' +
+                ", list=" + list +
                 '}';
     }
 }
 
-/*public class StringToObject {
-    public static ObjectMapper objectMapper = new ObjectMapper();
-
-    public static void main(String[] args) throws IOException {
-        String jsonStr = "[{\"id\":\"1\",\"values\":[\"1\",\"2\"]},{\"id\":\"2\",\"values\":[\"11\",\"22\"]}]";
-        JavaType javaType = getCollectionType(ArrayList.class, JsonArrayToList.class);
-        List<JsonArrayToList> list = objectMapper.readValue(jsonStr, javaType);
-        for (JsonArrayToList jatl : list) {
-            System.out.println(jatl.toString());
-        }
-    }
-
-    public static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
-        return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
-    }
-}
-
-class JsonArrayToList {
-    @JsonProperty("id")
-    private String id;
-
-    @JsonProperty("values")
-    private List<Integer> values;
-
+class MyListProject{
+    @JsonProperty("str")
+    private String str;
+    @JsonProperty("integer")
+    private Integer integer;
     @Override
     public String toString() {
-        return "JsonArrayToList{" +
-                "id='" + id + '\'' +
-                ", values=" + values +
+        return "MyListProject{" +
+                "str='" + str + '\'' +
+                ", integer=" + integer +
                 '}';
     }
-}*/
-
+}
